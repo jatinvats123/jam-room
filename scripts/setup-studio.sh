@@ -21,6 +21,7 @@ mkdir -p "$TARGET/games"
 
 # Kit-owned files: always refreshed from the kit.
 cp "$KIT/STUDIO.md" "$KIT/package.json" "$KIT/.gitignore" "$KIT/.gitattributes" "$TARGET/"
+mkdir -p "$TARGET/.claude" && cp "$KIT/.claude/settings.json" "$TARGET/.claude/settings.json"
 for dir in starter tools; do
   rm -rf "${TARGET:?}/$dir"
   cp -R "$KIT/$dir" "$TARGET/$dir"

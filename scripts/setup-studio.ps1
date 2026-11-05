@@ -25,6 +25,8 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Target 'games') | Out-Null
 foreach ($item in 'STUDIO.md', 'package.json', '.gitignore', '.gitattributes') {
   Copy-Item -Force (Join-Path $Kit $item) (Join-Path $Target $item)
 }
+New-Item -ItemType Directory -Force -Path (Join-Path $Target '.claude') | Out-Null
+Copy-Item -Force (Join-Path $Kit '.claude\settings.json') (Join-Path $Target '.claude\settings.json')
 foreach ($dir in 'starter', 'tools') {
   $dest = Join-Path $Target $dir
   if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
