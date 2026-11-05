@@ -33,8 +33,8 @@ mkdir -p "$TARGET/templates" && cp "$KIT/../templates/jam-game-room.template.yam
 cd "$TARGET"
 echo "Installing packages..."
 npm install --no-fund --no-audit --loglevel=error
-echo "Installing headless Chromium for the playtester..."
-npx playwright install chromium
+echo "Installing headless Chromium for the playtester (into .browsers/, so sandboxed agents like Codex can start it)..."
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.browsers" npx playwright install chromium
 node tools/build-arcade.mjs
 
 if [ ! -d .git ]; then

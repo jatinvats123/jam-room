@@ -43,7 +43,8 @@ try {
   Write-Host 'Installing packages...'
   npm install --no-fund --no-audit --loglevel=error
   if ($LASTEXITCODE -ne 0) { throw 'npm install failed.' }
-  Write-Host 'Installing headless Chromium for the playtester...'
+  Write-Host 'Installing headless Chromium for the playtester (into .browsers/, so sandboxed agents like Codex can start it)...'
+  $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
   npx playwright install chromium
   if ($LASTEXITCODE -ne 0) { throw 'Playwright browser install failed.' }
 

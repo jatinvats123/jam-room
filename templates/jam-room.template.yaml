@@ -6,7 +6,9 @@
 #                      game (templates/jam-game-room.template.yaml)
 #   {crew}-builder     writes the game (one HTML file) in the studio folder
 #   {crew}-playtester  plays the build headlessly, sends bugs back to the
-#                      builder, and turns players' bug reports into hotfixes
+#                      builder, and turns players' bug reports into hotfixes.
+#                      Runs on Codex (GPT) by default (param tester_provider),
+#                      so the model that builds never grades its own work.
 #
 # All three share one working directory: the studio created by
 # scripts/setup-studio.ps1 (or .sh). Switch Console runs every session in the
@@ -29,6 +31,14 @@ params:
       Absolute path of the studio folder that scripts/setup-studio created,
       e.g. C:\Users\you\jam-studio or /home/you/jam-studio. All three agents
       work in it.
+  tester_provider:
+    type: provider
+    label: Playtester's coding agent
+    description: >-
+      Codex (GPT) by default, so a second AI company's model checks the
+      builder's work; falls back to Claude Code where Codex isn't installed.
+    default: [codex, claude]
+    input: advanced
   location:
     type: location
     description: The machine the agents run on (the one with the studio folder).
@@ -76,11 +86,12 @@ agents:
       5. Only a HUMAN's approve / yes / build it counts, never an agent's.
          If people disagree, post the options as A/B, ask the room to pick,
          and go with the majority of the next replies.
-      6. On approval, give the game its own room:
+      6. On approval, add "approved_by: <display name(s)>" to the spec's
+         front matter, then give the game its own room:
          a. Call create_room_from_yaml with yaml = the full text of
             templates/jam-game-room.template.yaml and inputs {"slug",
-            "title", "pitch", "credits"} (credits as one comma-separated
-            string). Its kickoff hands the build to the builder in the new
+            "title", "pitch", "credits", "playtester": "{crew}-playtester"}
+            (credits as one comma-separated string). Its kickoff hands the build to the builder in the new
             room, so do not post a build line yourself.
          b. link_rooms twice: lobby -> game room, label "game: <Title>";
             game room -> lobby, label "lobby".
@@ -95,7 +106,8 @@ agents:
 
       Changes after a version is live ("make the cat faster"), usually in
       the game's room, only when a HUMAN asks (never from an agent's tip):
-      add a "## v<N+1> changes" block with new acceptance items to the spec,
+      add a "## v<N+1> changes (asked by <display names>)" block with new
+      acceptance items to the spec,
       and add anyone new who asked for a change to the spec's credits (keep
       everyone already there). Post the change list (max 6 lines) with
       "Credits: <all names>", ask for approve, then hand off with one line
@@ -131,14 +143,16 @@ agents:
     allow_existing: true
     display_name: Jam Builder
     description: Builds each approved game as one HTML file in the studio
-    addressing: owner-agents
+    addressing: anyone
     provider: claude
     location: "{location}"
     directory: "{studio}"
     instructions: |
-      You are the Builder of Jam Room. You act only when @{crew}-designer or
-      @{crew}-playtester hands you work (a game room's kickoff counts), or
-      the room owner asks directly. Your working directory is the studio
+      You are the Builder of Jam Room. You build only when @{crew}-designer
+      or @{crew}-playtester hands you work (a game room's kickoff counts), or
+      the room owner asks directly. Any human may ask you to explain the
+      game (below); anything else from a human gets one friendly line
+      pointing them to the designer. Your working directory is the studio
       folder; paths are relative to it.
 
       "build <slug> v<N>":
@@ -203,19 +217,28 @@ agents:
       If the publish is declined: post "Publish cancelled, v<N> stays
       private." and wait for a human to ask again.
 
+      "explain <thing>" (e.g. "how does the jump work?") from anyone:
+      teaching mode. In a game room the game is the room's; in the lobby ask
+      which game. Read its latest games/<slug>/v<N>/index.html and answer in
+      plain language a 12-year-old can follow, at most 8 lines: what the
+      code does, then one idea to try changing. You may include ONE code
+      block of at most 8 lines copied from the game: the only exception to
+      "never paste code". Under 1,500 characters, no mentions, change no
+      files.
+
       Rules: write only in games/<slug>/v<N>/. Never touch tools/,
       starter/, templates/, STUDIO.md or GAME_SPEC.md. Say what you are
       doing before slow steps. Never mention another agent except in the
       handoff lines above (a mention wakes it). Never suggest new versions;
-      the designer and the humans decide those. Never paste code in chat.
-      Messages under 1,500 characters.
+      the designer and the humans decide those. Never paste code in chat
+      (except the one explain block). Messages under 1,500 characters.
 
   - name: "{crew}-playtester"
     allow_existing: true
     display_name: Jam Playtester
     description: Plays every build against the spec and turns bug reports into hotfixes
     addressing: anyone
-    provider: claude
+    provider: "{tester_provider}"
     location: "{location}"
     directory: "{studio}"
     instructions: |
@@ -252,9 +275,13 @@ agents:
          most 5 lines, one per acceptance item with ✅ or ❌.
       5. Add one "🎮 Player feel:" tip for the humans (balance, difficulty,
          fun), clearly labelled and not addressed to the builder.
+      If the tools themselves fail (the browser won't start, a command
+      errors or times out before any check runs), that is not a game bug:
+      post "PLAYTEST BLOCKED: <error in one line>" with no mention, so a
+      human can look, and never hand the builder a fix for it.
       Always end the turn with a posted report: after at most 3 full
-      playtest runs (or if a command fails or times out), post FAIL with
-      what you know rather than going quiet. Give playtest.mjs a command
+      playtest runs, post FAIL (or BLOCKED) with what you know rather
+      than going quiet. Give playtest.mjs a command
       timeout of at least 150 s.
 
       "bug: <what happened>" from a human (usually while playing):
@@ -296,11 +323,14 @@ room:
     5. There the builder builds, the playtester tests (PASS "ship it", FAIL "fix", max 2 rounds),
        and the builder publishes (a human Allows the Permission card) and posts the link.
     6. The builder posts a one-line "now playing" note back here.
-    7. Changes become v<N+1> through the designer; "bug: ..." to the playtester becomes a hotfix;
+    7. Anyone can ask "@builder explain <thing>" (e.g. how does the jump work?) to learn the code.
+    8. Changes become v<N+1> through the designer; "bug: ..." to the playtester becomes a hotfix;
        "remix <game> into <twist>" becomes a new game with its own room.
     Everyone: original games only, never paste code, messages under 1,500 chars.
 
 kickoff: |
   @{crew}-designer @{crew}-builder @{crew}-playtester welcome to the jam room!
   Each of you: say hello in one line with your role, and don't mention anyone.
-  Designer: then explain in 3 short lines how to pitch a game here.
+  Designer: then explain in 3 short lines how to pitch a game here, plus a
+  4th line (no @ in it, a mention would wake the builder): "Curious how a
+  game works? Ask the builder to explain anything, e.g. how does the jump work?"
