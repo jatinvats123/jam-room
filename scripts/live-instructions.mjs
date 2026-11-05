@@ -23,7 +23,7 @@ for (let i = 0; i < lines.length; i++) {
   const addr = lines[i].match(/^    addressing: (\S+)/);
   if (addr) a.addressing = addr[1];
   if (/^    instructions: \|$/.test(lines[i])) {
-    for (i++; i < lines.length && (lines[i] === '' || lines[i].startsWith('      ')); i++) a.text.push(lines[i].slice(6));
+    for (i++; i < lines.length && (lines[i] === '' || lines[i].startsWith('      ')); i++) a.text.push(lines[i].slice(6).replaceAll("{crew}", crew));
     i--;
   }
   if (/^\S/.test(lines[i])) break; // left the agents: list
