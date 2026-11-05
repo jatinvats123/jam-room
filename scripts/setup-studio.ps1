@@ -38,6 +38,9 @@ try {
   Write-Host 'Installing packages...'
   npm install --no-fund --no-audit --loglevel=error
   if ($LASTEXITCODE -ne 0) { throw 'npm install failed.' }
+  Write-Host 'Installing headless Chromium for the playtester...'
+  npx playwright install chromium
+  if ($LASTEXITCODE -ne 0) { throw 'Playwright browser install failed.' }
 
   node tools/build-arcade.mjs
   if ($LASTEXITCODE -ne 0) { throw 'Building the arcade page failed.' }

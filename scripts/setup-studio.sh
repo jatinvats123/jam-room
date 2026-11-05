@@ -30,6 +30,8 @@ done
 cd "$TARGET"
 echo "Installing packages..."
 npm install --no-fund --no-audit --loglevel=error
+echo "Installing headless Chromium for the playtester..."
+npx playwright install chromium
 node tools/build-arcade.mjs
 
 if [ ! -d .git ]; then
