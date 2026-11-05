@@ -37,6 +37,9 @@ New-Item -ItemType Directory -Force -Path (Join-Path $Target 'templates') | Out-
 Copy-Item -Force (Join-Path (Split-Path -Parent $Kit) 'templates\jam-game-room.template.yaml') (Join-Path $Target 'templates\jam-game-room.template.yaml')
 $keep = Join-Path $Target 'games\.gitkeep'
 if (-not (Test-Path $keep)) { New-Item -ItemType File -Path $keep | Out-Null }
+# Who's who for credits (the designer fills it in; gitignored). Never overwritten.
+$people = Join-Path $Target 'people.json'
+if (-not (Test-Path $people)) { Set-Content -Path $people -Value '{}' -Encoding ascii }
 
 Push-Location $Target
 try {

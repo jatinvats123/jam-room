@@ -49,3 +49,9 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 - Fallbacks: no room group; score challenge skipped (user decision); builder addressing is a custom rule (users any, agents mine).
 - Open: the Switch server froze 3x tonight (PC at ~12% battery; recovered on its own or after a restart); keep the charger in for recording. The making-of pages aren't on Pages yet (they publish with the next game publish).
 - Next step: Phase 5 recording session (charger plugged in, !reset-all-agents in each room before every take).
+
+## U1 (2026-11-06): Switch enforces the rules: code DONE, Console + smoke test pending (user clicks)
+- Done: templates (builder owner-agents + Console custom-rule note, explain mode moved to designer, playtester "test" only from agents, people.json identity by Switch sender id, approver line on the publish post), live-instructions.mjs shows the Console rule, regenerated doc (--tester jam-playtester-gpt, --check MATCH), both templates parse, setup creates people.json (gitignored), STUDIO.md, README "Why Switch" table with "Enforced by Switch" column. Live studio synced + committed locally (not pushed).
+- Deviations: none in design; approvers live only in Console (templates can't name people).
+- Open: paste the 3 blocks + set the builder's Custom rule in Console, !reset-all-agents in each room, smoke test "@builder ship it" from the second account → screenshot docs/media/refusal.png.
+- Next step: user does the Console clicks below, then the smoke test; then U2.

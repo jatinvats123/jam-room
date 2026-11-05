@@ -29,6 +29,8 @@ done
 # The game-room template the designer runs (create_room_from_yaml) lives in the repo's templates/.
 mkdir -p "$TARGET/templates" && cp "$KIT/../templates/jam-game-room.template.yaml" "$TARGET/templates/"
 [ -f "$TARGET/games/.gitkeep" ] || touch "$TARGET/games/.gitkeep"
+# Who's who for credits (the designer fills it in; gitignored). Never overwritten.
+[ -f "$TARGET/people.json" ] || echo '{}' > "$TARGET/people.json"
 
 cd "$TARGET"
 echo "Installing packages..."

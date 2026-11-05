@@ -17,7 +17,26 @@ that the agents reproduce and hotfix.
   and a hotfix crediting the reporter; remixes start from the original's code.
 - **"How this game was made" pages:** a timeline per game, built only from files the agents
   already wrote.
-- **Explain-it mode:** anyone can ask the builder how part of the game works.
+- **Explain-it mode:** anyone can ask the designer how part of the game works.
+- **Switch enforces the rules:** only approvers can direct the builder or answer its publish
+  card. Anyone else gets Switch's own refusal, not a prompt's polite no.
+
+## Why Switch
+
+Jam Room has no server of its own: every row below is Switch doing the work. **Enforced by
+Switch** means the rule holds even if an agent's instructions are ignored or rewritten.
+
+| What happens | Switch feature | Enforced by Switch? |
+|---|---|---|
+| Only approvers (the host + named friends) and the owner's agents can direct `@builder`; anyone else gets *"You're not permitted to direct messages to me in this room"* | Addressing policy, custom rule (Console) | ✅ Switch refuses before the agent sees it |
+| Only approvers can answer the 🚀 publish card, so nothing goes public without one | Approval requests (who may answer = who may address) | ✅ Switch |
+| A game goes public only after a human taps Allow | Claude Code permission → "Permission needed" card in Discord | ✅ Switch + the studio's `.claude/settings.json` ask rule |
+| Credits and "bug hunter" names follow the person, not the name they type | Stable sender ids from `read_context` / `list_participants` → `people.json` | ✅ ids come from Switch; the name each id maps to is the designer's job |
+| Each approved game gets its own channel, aliases and kickoff | Agent-run room templates (`create_room_from_yaml`) | ✅ Switch |
+| Lobby ↔ game ↔ remix navigation | Room links | ✅ Switch |
+| Designer → builder → playtester handoffs | @mention addressing between agents | ✅ Switch delivers; who hands off when is in the instructions |
+| Claude Code builds, Codex (GPT) tests, on your own PC | Console-managed agents, two providers | ✅ Switch |
+| Plans need a human `approve`; only agents may ask for a `test` | Instructions | ❌ prompt (Switch can't tell a message's intent apart) |
 
 ## Quick start
 
@@ -55,6 +74,11 @@ Console (Home → Messaging apps).
      Paste each block from [docs/live-agent-instructions.md](docs/live-agent-instructions.md) and
      set its Addressing as shown. Then run the template and choose **Existing agent** for all
      three.
+   - **Approvers (any OS):** the template gives the builder `owner-agents`. To let a friend
+     publish too, open Your Agents → `jam-builder` → Who can talk to this agent → **Custom**,
+     one rule: Rooms Any, Room groups Any, Users **Specific** = Me + the friend's chat
+     username, Agents = My agents. Everyone else who @mentions the builder is refused by
+     Switch and can't answer its publish card.
 4. **Short names:** post one ordinary message in the new `#jam-room` channel, then:
    ```text
    !set-alias @jam-designer @designer
@@ -65,7 +89,7 @@ Console (Home → Messaging apps).
    playtester's name, so `@tester` points to the GPT agent there too.)
 5. **Play:** `@designer new game: a penguin sliding down an icy hill, dodging snowmen` → reply
    `approve` → the designer opens `#game-<slug>`, where the builder builds, the playtester
-   tests, and a human Allows the "Permission needed" card to publish. In the web client type
+   tests, and an approver Allows the "Permission needed" card to publish. In the web client type
    the card's answer (e.g. `A1 1`) instead of clicking. A playtest passes only after the
    playtester writes `games/<slug>/v<N>/scenario.json` from the spec's Acceptance list; a cold
    first run can take up to ~150 s.
@@ -86,7 +110,7 @@ its old memory. After editing the template, `node scripts/live-instructions.mjs 
   reporter credited as bug hunter.
 - `@designer remix Penguin Slide into a lava surfing game` → a new game that starts from the
   original's code, with its own room linked to the original (`remix of` / `remixed as`).
-- `@builder explain how does the jump work?` → explain-it mode (below).
+- `@designer explain how does the jump work?` → explain-it mode (below).
 
 ## Cross-vendor playtesting
 
@@ -133,9 +157,8 @@ https://jatinvats123.github.io/jam-studio-arcade/games/penguin-slide/
 
 ## Explain-it mode
 
-Anyone can ask `@builder explain how does the jump work?`. The builder reads the game's latest
-version and answers in plain language in at most 8 lines (what the code does, then one idea to
-try changing), with at most one code block of up to 8 lines copied from the game. It changes no
-files. The builder's addressing is "anyone" so humans can reach it, but it only builds when the
-designer, the playtester or the room owner asks; any other request from a human gets pointed to
-the designer.
+Anyone can ask `@designer explain how does the jump work?`. The designer (addressing: anyone)
+reads the game's latest version and answers in plain language in at most 8 lines (what the code
+does, then one idea to try changing), with at most one code block of up to 8 lines copied from
+the game. It changes no files. Explaining lives on the designer, not the builder, so the builder
+can stay locked to approvers.

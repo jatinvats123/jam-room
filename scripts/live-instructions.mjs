@@ -29,6 +29,9 @@ for (let i = 0; i < lines.length; i++) {
   if (name) { agents.push({ name: sub(name[1]), addressing: '', provider: '', text: [] }); continue; }
   const a = agents[agents.length - 1];
   if (!a) continue;
+  // "# Console addressing: …" overrides what the doc shows (a Console custom rule the template can't express).
+  const consoleAddr = lines[i].match(/^    # Console addressing: (.+)$/);
+  if (consoleAddr) a.console = consoleAddr[1];
   const addr = lines[i].match(/^    addressing: (\S+)/);
   if (addr) a.addressing = addr[1];
   const prov = lines[i].match(/^    provider: "?([^"\s]+)"?/);
@@ -47,7 +50,7 @@ const out = [
   'Keep the two identical: edit the template, re-run the script, paste each block into',
   'Console > Your Agents > agent > Settings > Instructions, set Addressing as shown, save,',
   'then type `!reset-all-agents` in each room (a resumed session keeps old memory).', '',
-  ...agents.flatMap(a => [`## ${a.name}`, '', `Addressing: **${a.addressing}** · Provider: **${a.provider}**`, '', '```text', ...a.text.join('\n').trimEnd().split('\n'), '```', '']),
+  ...agents.flatMap(a => [`## ${a.name}`, '', `Addressing: ${a.console ? `${a.console} (template: ${a.addressing})` : `**${a.addressing}**`} · Provider: **${a.provider}**`, '', '```text', ...a.text.join('\n').trimEnd().split('\n'), '```', '']),
 ].join('\n');
 
 if (check) {
