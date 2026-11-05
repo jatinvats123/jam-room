@@ -1,5 +1,6 @@
-# Jam Room: three Claude Code agents and a lobby room where friends design
-# tiny browser games together.
+# Jam Room: three coding agents (designer + builder on Claude Code, playtester
+# on Codex by default) and a lobby room where friends design tiny browser
+# games together.
 #
 #   {crew}-designer    the front door; turns the group's ideas into a spec,
 #                      waits for a human "approve", then opens a room for the

@@ -5,8 +5,6 @@ Make tiny browser games with your friends by chatting in Discord. Three Switch a
 game gets its own room, friends iterate (v2, v3…), remix each other's games, and report bugs
 that the agents reproduce and hotfix.
 
-> Work in progress for the Flip the Switch hackathon. Full README lands in Phase 5.
-
 ## Features
 
 - **Design by chat:** the designer gathers everyone's ideas into a spec, a human replies
@@ -34,8 +32,10 @@ Console (Home → Messaging apps).
    ```bash
    ./scripts/setup-studio.sh                                            # macOS / Linux → ~/jam-studio
    ```
-   It copies `studio-kit/` and `templates/jam-game-room.template.yaml`, installs Playwright's
-   Chromium for the playtester, and makes the folder a git repo. Safe to re-run.
+   It copies `studio-kit/` and `templates/jam-game-room.template.yaml`, downloads headless
+   Chromium (~700 MB) into `<studio>\.browsers` for the playtester, and makes the folder a git
+   repo. Safe to re-run. Pick another folder with `-Target <dir>` (PowerShell) or the first
+   argument (setup-studio.sh); the default is `%USERPROFILE%\jam-studio`.
 2. **Codex CLI** (for the GPT playtester):
    ```powershell
    npm i -g @openai/codex
@@ -66,13 +66,17 @@ Console (Home → Messaging apps).
 5. **Play:** `@designer new game: a penguin sliding down an icy hill, dodging snowmen` → reply
    `approve` → the designer opens `#game-<slug>`, where the builder builds, the playtester
    tests, and a human Allows the "Permission needed" card to publish. In the web client type
-   the card's answer (e.g. `A1 1`) instead of clicking.
+   the card's answer (e.g. `A1 1`) instead of clicking. A playtest passes only after the
+   playtester writes `games/<slug>/v<N>/scenario.json` from the spec's Acceptance list; a cold
+   first run can take up to ~150 s.
 6. **Public links (optional):** add a GitHub remote to the studio and enable GitHub Pages
    (main, root). Without one, links are local: run `npm run serve` in the studio and open
    http://localhost:8080/.
 
 After editing agent instructions, run `!reset-all-agents` in each room: a resumed session keeps
-its old memory. Gotchas and design choices: [DECISIONS.md](DECISIONS.md).
+its old memory. After editing the template, `node scripts/live-instructions.mjs --check` confirms
+`docs/live-agent-instructions.md` still matches it (on the Windows path, generate with
+`--tester jam-playtester-gpt`). Gotchas and design choices: [DECISIONS.md](DECISIONS.md).
 
 ## In a game room
 
