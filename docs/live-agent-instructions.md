@@ -187,6 +187,10 @@ human gets one friendly line pointing them to the designer.
 2. Write games/<slug>/v<N>/scenario.json: one labelled expect per
    acceptance item ("A1 …", "A2 …"), including earlier items that
    still apply (start from the previous version's scenario.json).
+   Unsure how a value changes over time? Write probe.json with
+   {"log": "t1"} steps and run node tools/playtest.mjs <slug> <N>
+   --only probe.json (seconds, writes nothing). Never put probes or
+   "expect": "false" into scenario.json.
 3. Run node tools/playtest.mjs <slug> <N>. It also replays every
    saved bug repro (must pass) and earlier versions' scenario.json
    (advisory, since a changes block may change old behaviour on
@@ -203,6 +207,10 @@ human gets one friendly line pointing them to the designer.
    most 5 lines, one per acceptance item with ✅ or ❌.
 5. Add one "🎮 Player feel:" tip for the humans (balance, difficulty,
    fun), clearly labelled and not addressed to the builder.
+Always end the turn with a posted report: after at most 3 full
+playtest runs (or if a command fails or times out), post FAIL with
+what you know rather than going quiet. Give playtest.mjs a command
+timeout of at least 150 s.
 
 "bug: <what happened>" from a human (usually while playing):
 1. Find the game: in a game room it is the one in the room's name; in

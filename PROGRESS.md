@@ -26,3 +26,10 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 - Deviations: no room group (see DECISIONS); feature 4 (challenge) not started. Designer still credits the username unless the human gives their display name.
 - Open: Penguin Slide v1 playtest/publish pending (user taps Allow on the Permission card); Comet Dash v1 build pending; hotfix smoke test not run; lobby "now playing" note unverified.
 - Next step: check both builds published, then in #game-penguin-slide: "@tester bug: <real bug>" -> expect repro + hotfix v2 + publish; verify lobby notes and arcade lineage; commit; then Phase 5.
+
+## Phase 4 (2026-11-06): DONE (features 1-3; feature 4 challenge skipped)
+- Done live in Discord: lobby approve → #game-penguin-slide (template room, kickoff, lobby link) → PASS 19/19 → card → live v1; remix Comet Dash (remix_of cat-vs-cucumbers) → own room → PASS 19/19 → live; "@tester bug: wall-hugging" → repro-1.json reproduced → hotfix v2 → PASS 20/20 + 6/6 advisory → live with "🐛→✅ … bug hunter". Lobby got 3 "Now playing" notes. Public arcade shows hotfix badge, bug hunters, remix lineage both ways.
+- Fixes made during the runs: probe/log step + always-report rule (playtester re-synced in Console), PUBLISHED marker + per-game publish commits, advisory budget skip, playwright pinned 1.64.1. Clean-clone/setup re-tested after the pin.
+- Fallbacks/deviations: no room group (no op files an existing room into one); approve happens in the lobby before the room exists; agents were signed out overnight (fixed with claude auth login).
+- Open issues: credits use the Discord username unless told the display name; Cat vs Cucumbers (pre-Phase-4) has no room, so its remix has no room links; score challenge not built.
+- Next step: Phase 5 recording session. Before each take run !reset-all-agents in #jam-room and the game rooms; say your display name in the pitch; answer cards with "A<n> 1" (web) or the button (desktop app).

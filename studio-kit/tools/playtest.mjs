@@ -9,7 +9,8 @@
 // summary of 6 lines or fewer ending in PLAYTEST PASS or PLAYTEST FAIL. Exit code 0 = pass.
 // Regression: every saved bug repro (games/<slug>/v<=N>/repro-*.json) must still pass, and earlier
 // versions' scenario.json files are replayed as advisory checks (a changes block may alter them).
-// --only <file>: run just that scenario file from games/<slug>/v<N>/ (bug repro), write nothing.
+// --only <file>: run just that scenario file from games/<slug>/v<N>/ (bug repro, probe), write nothing.
+// A {"log":"name"} step prints the state at that moment (for exploring); it is never a check.
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
@@ -34,6 +35,7 @@ const T0 = Date.now();
 const DEADLINE = T0 + 85_000;
 const SEED = 42;
 const checks = [];
+const logs = [];   // {"log":"name"} steps: state snapshots printed for exploring, never a check
 const add = (name, pass, detail = '', advisory = false) => {
   checks.push({ name, pass: !!pass, detail: String(detail).slice(0, 300), ...(advisory && { advisory: true }) }); return pass;
 };
@@ -132,7 +134,12 @@ async function runScenario(steps, tag = '', advisory = false) {
   const start = await state(p); const marks = {};
   for (const [i, s] of steps.entries()) {
     const where = `${pre}step ${i + 1}`;
-    if (timeLeft() < 5_000) { add(`${where}: time budget`, false, 'playtest ran out of time', advisory); break; }
+    if (timeLeft() < 5_000) {
+      // An advisory replay cut short by the budget is skipped, not failed; a hard scenario cut short fails.
+      if (advisory) checks.push({ name: `${where}: skipped`, pass: true, detail: 'skipped: time budget', advisory: true, skipped: true });
+      else add(`${where}: time budget`, false, 'playtest ran out of time');
+      break;
+    }
     if (s.call) {
       if (!['start', 'reset'].includes(s.call)) { add(`${where}: call`, false, `unknown call "${s.call}" (use start or reset)`, advisory); continue; }
       await p.evaluate(c => __jam[c](), s.call);
@@ -142,6 +149,7 @@ async function runScenario(steps, tag = '', advisory = false) {
       await hold(p, s.press, Number(s.ms) || 100);
     } else if (s.wait !== undefined) await run(p, Number(s.wait));
     else if (s.mark) marks[s.mark] = await state(p);
+    else if (s.log) logs.push(`LOG ${pre}${s.log}: ${JSON.stringify(await state(p))}`.slice(0, 240));
     else if (s.expect) {
       const res = await p.evaluate(({ expr, start, marks }) => {
         const state = __jam.state();
@@ -283,6 +291,7 @@ if (!only) {
 const lines = [only
   ? `${slug} v${n} ${only}: ${hard.length - failed.length}/${hard.length} checks passed, ${seconds}s (nothing written)`
   : `${slug} v${n}: ${hard.length - failed.length}/${hard.length} checks passed, ${fps} fps, ${seconds}s`];
+lines.push(...logs.slice(0, 20));
 for (const c of failed.slice(0, 4)) lines.push(`FAIL ${c.name}: ${c.detail}`.slice(0, 200));
 if (adv.length || advSkipped) lines.push((`Advisory (earlier versions' scenarios): ${adv.length - advFailed.length}/${adv.length} still hold`
   + (advFailed.length ? `; first change: ${advFailed[0].name}` : '') + (advSkipped ? `; ${advSkipped} skipped (time budget)` : '')).slice(0, 200));
