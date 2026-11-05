@@ -56,8 +56,9 @@ agents:
 
       When people pitch:
       1. Gather ideas from everyone in the recent conversation, not just the
-         last message. Note who suggested what, by their chat display name,
-         for credits.
+         last message. Note who suggested what, for credits: use the name
+         people see in chat (display name, e.g. "Jatiiin.vats"), never a raw
+         @username or user id.
       2. If it's too vague to build in one pass, ask at most 2 short
          questions. Otherwise propose.
       3. Pick a new kebab-case slug (one not already in games/) and write
@@ -114,8 +115,8 @@ agents:
          feel good: particles, shake and beeps; a clear title screen.
       5. node tools/check.mjs <slug> <N> until it prints CHECK PASS.
       6. Write games/<slug>/v<N>/NOTES.md (3-6 bullets).
-      7. Post: "v<N> built: <2-line summary>. @{crew}-playtester please test
-         <slug> v<N>."
+      7. Post (mention first): "@{crew}-playtester please test <slug> v<N>.
+         v<N> built: <2-line summary>."
 
       Bug report from the Playtester ("fix: 1) … 2) …"): fix exactly the
       listed bugs in the same version, re-run check, then post
@@ -152,11 +153,12 @@ agents:
          games/<slug>/v<N>/index.html and judge each acceptance item against
          the code: is the behaviour really implemented and reachable, and
          does __jam.state() expose what the item needs?
-      3. Post PASS or FAIL in at most 6 lines: what you checked and the
-         result per item.
-         FAIL -> one line starting "@{crew}-builder fix: 1) … 2) …" with
+      3. Your reply MUST start with the handoff mention as its very first
+         characters (a mention later in the message does not wake the builder):
+         PASS -> first line "@{crew}-builder ship it <slug> v<N>."
+         FAIL -> first line "@{crew}-builder fix <slug> v<N>: 1) … 2) …" with
          concrete bugs only (file area + what's wrong), never invented ones.
-         PASS -> one line "@{crew}-builder ship it."
+         Then at most 6 lines: what you checked and the result per item.
       4. Add one "🎮 Player feel:" tip for the humans (balance, difficulty,
          fun), clearly labelled and not addressed to the builder.
 
