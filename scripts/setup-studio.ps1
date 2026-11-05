@@ -3,7 +3,7 @@
   Usage:  powershell -ExecutionPolicy Bypass -File scripts\setup-studio.ps1 [-Target C:\path\to\jam-studio]
 
   Copies studio-kit/ into the target folder, runs npm install, and makes it a git repo.
-  Safe to re-run: kit files (STUDIO.md, starter/, tools/, package.json) are refreshed,
+  Safe to re-run: kit files (STUDIO.md, starter/, tools/, templates/, package.json) are refreshed,
   while games/ and the generated arcade index.html are never overwritten.
 #>
 param([string]$Target = (Join-Path $env:USERPROFILE 'jam-studio'))
@@ -32,6 +32,9 @@ foreach ($dir in 'starter', 'tools') {
   if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
   Copy-Item -Recurse -Force (Join-Path $Kit $dir) $dest
 }
+# The game-room template the designer runs (create_room_from_yaml) lives in the repo's templates/.
+New-Item -ItemType Directory -Force -Path (Join-Path $Target 'templates') | Out-Null
+Copy-Item -Force (Join-Path (Split-Path -Parent $Kit) 'templates\jam-game-room.template.yaml') (Join-Path $Target 'templates\jam-game-room.template.yaml')
 $keep = Join-Path $Target 'games\.gitkeep'
 if (-not (Test-Path $keep)) { New-Item -ItemType File -Path $keep | Out-Null }
 

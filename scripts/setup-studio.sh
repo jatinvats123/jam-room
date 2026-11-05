@@ -3,7 +3,7 @@
 # Usage: ./scripts/setup-studio.sh [target-dir]     (default: ~/jam-studio)
 #
 # Copies studio-kit/ into the target folder, runs npm install, and makes it a git repo.
-# Safe to re-run: kit files (STUDIO.md, starter/, tools/, package.json) are refreshed,
+# Safe to re-run: kit files (STUDIO.md, starter/, tools/, templates/, package.json) are refreshed,
 # while games/ and the generated arcade index.html are never overwritten.
 set -euo pipefail
 
@@ -26,6 +26,8 @@ for dir in starter tools; do
   rm -rf "${TARGET:?}/$dir"
   cp -R "$KIT/$dir" "$TARGET/$dir"
 done
+# The game-room template the designer runs (create_room_from_yaml) lives in the repo's templates/.
+mkdir -p "$TARGET/templates" && cp "$KIT/../templates/jam-game-room.template.yaml" "$TARGET/templates/"
 [ -f "$TARGET/games/.gitkeep" ] || touch "$TARGET/games/.gitkeep"
 
 cd "$TARGET"
