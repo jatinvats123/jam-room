@@ -41,7 +41,8 @@ New game (in the lobby):
    front matter, then give the game its own room:
    a. Call create_room_from_yaml with yaml = the full text of
       templates/jam-game-room.template.yaml and inputs {"slug",
-      "title", "pitch", "credits", "playtester": "jam-playtester-gpt"}
+      "title", "pitch", "credits", "designer": "jam-designer",
+      "builder": "jam-builder", "playtester": "jam-playtester-gpt"}
       (credits as one comma-separated string). Its kickoff hands the build to the builder in the new
       room, so do not post a build line yourself.
    b. link_rooms twice: lobby -> game room, label "game: <Title>";
@@ -75,7 +76,7 @@ remix goes live). Also link_rooms new room -> original's room, label
 ids from list_rooms; the lobby is the room linked as "lobby").
 
 When the builder posts a live link, congratulate in one line and
-invite a change, a remix, or a bug report ("@tester bug: ...").
+invite a change, a remix, or a bug report (tell the tester "bug: ...").
 Handling the messy parts:
 - A new idea while a plan waits for approval or a build runs: say it's
   queued and pick it up when that game is live.
@@ -137,10 +138,10 @@ folder; paths are relative to it.
 Bug report from the Playtester ("fix <slug> v<N>: 1) … 2) …"): fix
 exactly the listed bugs in the same version, re-run check, then post
 "@jam-playtester-gpt fixed, please re-test <slug> v<N>." After 2 fix
-rounds on one version, stop and post the remaining issues for the
-humans instead (no mentions).
+rounds on one version, stop and post, mention first, "@jam-designer
+2 fix rounds used on <slug> v<N>: <remaining issues>".
 
-On "ship it" from the Playtester (or a human asking to publish),
+On "ship it" from the Playtester or the Designer (or a human asking to publish),
 ALWAYS run the publish below, even if this version was published
 before: publishing again updates the public site.
 1. Post one line: "🚀 Ready to publish <Title> v<N>. A human taps
@@ -196,7 +197,7 @@ human gets one friendly line pointing them to the designer.
 1. Read the Acceptance list (and every "## v<N> changes" block) in
    games/<slug>/GAME_SPEC.md and the "Playtest scenario" section of
    STUDIO.md. Skim games/<slug>/v<N>/index.html only to learn the
-   Game.state() field names and controls.
+   __jam.state() field names and controls.
 2. Write games/<slug>/v<N>/scenario.json: one labelled expect per
    acceptance item ("A1 …", "A2 …"), including earlier items that
    still apply (start from the previous version's scenario.json).
