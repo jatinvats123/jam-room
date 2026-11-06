@@ -27,6 +27,7 @@ studio. Agents wrote them in Discord: the spec, the code, the playtest scenario 
 | Versions: a change becomes v<N+1> | `npm run verify` (claim: new version) | `PASS … new version` |
 | The arcade and the "How this game was made" pages are built only from files the agents wrote | `npm run verify` (claim: arcade / making-of) | `PASS arcade …` and `PASS making-of …` |
 | The setup is reproducible from the Switch templates | `npm run verify` (claim: templates) | `PASS templates parse …` |
+| "Caught on camera": the playtester's GIF is the same deterministic run as the test, and the hotfix clip shows the bug on the old version and not on the new one | `npm run verify` (claim: clip) | `PASS clip.mjs comet-dash 1 makes clip.gif …` (< 5 MB, >= 30 frames), `PASS same inputs, same bytes …` (sha256 identical over two runs), `PASS clip.mjs penguin-slide 2 --repro repro-1.json --vs 1 …` (v1 fails, v2 passes) |
 | The Console instructions match the template | `node scripts/live-instructions.mjs --check` | `LIVE INSTRUCTIONS MATCH TEMPLATE` |
 | The playtester catches real bugs and doesn't cry wolf | `npm run eval` | headline `Caught X/Y planted bugs · Z false FAILs` in [docs/eval.md](docs/eval.md) |
 
@@ -42,6 +43,7 @@ These need the agents running, so here is where to see them.
 | Designer → builder → playtester hand off by @mention, and FAIL goes back to the builder with the failed checks | video TBD |
 | A friend's `@tester bug: …` becomes a repro → hotfix → publish with "bug hunter" credit | video TBD · result on the live arcade: https://jatinvats123.github.io/jam-studio-arcade/games/penguin-slide/ |
 | Credits follow the Switch sender id, not the typed name (`people.json`) | video TBD |
+| The playtester posts gameplay clips in Discord through Switch (`send_attachment`): ❌ the reproduced bug, 🐛→✅ v<N-1> vs v<N> after the hotfix | screenshot `docs/media/caught-on-camera.png` (after the live test) · video TBD · offline: [examples/games/penguin-slide/v2/fix-1.gif](examples/games/penguin-slide/v2/fix-1.gif) |
 | Cross-vendor: the Codex (GPT) playtester tests what Claude Code built (`playtest.json` records `runner`; the bundled samples predate that field) | video TBD |
 | Live public arcade, playable on a phone | https://jatinvats123.github.io/jam-studio-arcade/ |
 

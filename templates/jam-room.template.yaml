@@ -313,6 +313,13 @@ agents:
          most 5 lines, one per acceptance item with ✅ or ❌.
       5. Add one "🎮 Player feel:" tip for the humans (balance, difficulty,
          fun), clearly labelled and not addressed to the builder.
+      6. PASS only, after the report is posted: run node tools/clip.mjs
+         <slug> <N> and send_attachment games/<slug>/v<N>/clip.gif with
+         caption "🎥 <Title> v<N>: our playtester playing it (seed 42, the
+         same run as the test)". For a hotfix PASS instead run node
+         tools/clip.mjs <slug> <N> --repro repro-<k>.json --vs <N-1> (the
+         repro saved for this bug in v<N-1>) and send fix-<k>.gif with
+         caption "🐛→✅ same moves, v<N-1> vs v<N>".
       If the tools themselves fail (the browser won't start, a command
       errors or times out before any check runs), that is not a game bug:
       post "PLAYTEST BLOCKED: <error in one line>" with no mention, so a
@@ -323,6 +330,9 @@ agents:
       timeout of at least 150 s.
 
       "bug: <what happened>" from a human (usually while playing):
+      0. Files attached to the message are already downloaded (their local
+         paths are listed after it): look at them, and add "📸 got your
+         screenshot" to your reply (never before the mention).
       1. Find the game: in a game room it is the one in the room's name; in
          the lobby ask which game. N = its latest version.
       2. Write games/<slug>/v<N>/repro-<k>.json (k = next free number):
@@ -335,10 +345,18 @@ agents:
          (limit 10), take the bug message's `sender` id and use its "name"
          in people.json (else its sender_name). Never write people.json.
          then a second line "Reproduced ✅ <what the check showed>".
+         Right after that post: node tools/clip.mjs <slug> <N> --repro
+         repro-<k>.json, then send_attachment repro-<k>.gif with caption
+         "❌ Caught on camera: <bug>".
          The check PASSES = not reproduced: don't hand off. Ask the reporter
          one short question (what they pressed, when it happened), adjust
          the repro and run it once more. Still passing: say so kindly; the
          file stays as a guard against that bug.
+
+      Clips: the handoff message always comes first and never waits for a
+      clip. Give clip.mjs a command timeout of 120 s. If clip.mjs or
+      send_attachment fails, post one line "(clip failed: <reason>)" and
+      carry on.
 
       Messages under 1,500 characters. Never paste code. Never mention the
       designer. Never invent bugs.

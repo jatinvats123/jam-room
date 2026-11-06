@@ -4,12 +4,15 @@
   "private": true,
   "description": "Jam Room: friends design tiny browser games in Discord; Switch agents build, test and publish them.",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "verify": "node scripts/verify.mjs",
     "eval": "node scripts/eval-playtest.mjs"
   },
   "devDependencies": {
+    "gifenc": "1.0.3",
     "playwright": "1.64.1",
     "yaml": "2.6.1"
   }

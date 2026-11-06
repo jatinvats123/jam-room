@@ -16,7 +16,7 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 
 ## Phase 3 (2026-11-05): public links + Switch-native moments: MOSTLY DONE (v2 run pending)
 - Done: public repo jatinvats123/jam-studio-arcade with GitHub Pages (https://jatinvats123.github.io/jam-studio-arcade/); publish.mjs pushes, waits max 90 s for a 200, prints the LIVE, Short (play/<slug>/) and Screenshot links. Native approval: the studio's .claude/settings.json asks before `node tools/publish.mjs`, so Switch posts a "Permission needed" card in Discord (verified; the typed answer "A1 1" works). Live instructions synced in Console = templates/jam-room.template.yaml (docs/live-agent-instructions.md). v1 got a real PLAYTEST PASS 19/19 in Discord and is live on Pages.
-- Deviations: screenshot is posted as a Pages link (no attachment op for agents). Pages wait is 90 s, not 120 s (agent tool timeout). Recording moved to the end of the project, by user choice.
+- Deviations: screenshot is posted as a Pages link ("no attachment op for agents" was wrong: Console 0.40 agents have send_attachment, see U8). Pages wait is 90 s, not 120 s (agent tool timeout). Recording moved to the end of the project, by user choice.
 - Open issues: resumed sessions keep old memory, so run `!reset-all-agents` before any take. Clicking a card button in the Discord web client didn't register (typed answer works; try the desktop app). The v1 → v2 run with a second human is not done, so Phase 2's second-human test is still pending too.
 - Next step: run the v2 jam (friend: "@jam-designer make the cat faster and add a high score", owner: "@jam-designer approve", Allow the card), check that v2 is live on Pages, then start Phase 4.
 

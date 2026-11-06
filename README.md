@@ -10,6 +10,13 @@ Make tiny browser games with your friends by chatting in Discord. Three Switch a
 game gets its own room, friends iterate (v2, v3…), remix each other's games, and report bugs
 that the agents reproduce and hotfix.
 
+## Caught on camera
+
+![Penguin Slide: a friend's wall-hugging bug on v1 (left) and the same moves on the v2 hotfix (right)](examples/games/penguin-slide/v2/fix-1.gif)
+
+A friend reported in Discord that hugging the right wall dodges every snowman. This replays the playtester's saved repro on v1 (left: still alive after 30 s, the bug) and on the hotfix v2 (right: caught); the playtester posts clips like it in Discord through Switch.
+Each clip is the same deterministic run as the test (seed 42, fake clock), made by [`studio-kit/tools/clip.mjs`](studio-kit/tools/clip.mjs) and checked by `npm run verify`.
+
 ## Features
 
 - **Design by chat:** the designer gathers everyone's ideas into a spec, a human replies
@@ -20,6 +27,8 @@ that the agents reproduce and hotfix.
   by default, so the model that builds never grades its own work.
 - **Versions, remixes, bug hunts:** changes become v<N+1>; `bug: …` becomes a saved repro test
   and a hotfix crediting the reporter; remixes start from the original's code.
+- **Caught on camera:** after a PASS the playtester posts a GIF of its own test run in Discord; a
+  reproduced bug gets a ❌ clip and the hotfix a side-by-side "same moves, v1 vs v2" clip.
 - **"How this game was made" pages:** a timeline per game, built only from files the agents
   already wrote.
 - **Explain-it mode:** anyone can ask the designer how part of the game works.

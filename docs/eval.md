@@ -1,6 +1,6 @@
 # Playtester eval: planted bugs
 
-_Generated 2026-11-06 08:26 UTC by `npm run eval` in 8.8 min._
+_Generated 2026-11-06 10:18 UTC by `npm run eval` in 8.6 min._
 
 **Caught 21/21 planted bugs · 0 false FAILs on 3 clean games**
 
@@ -14,9 +14,9 @@ Reproduce: `npm install && npx playwright install chromium`, then `npm run eval`
 
 | game | version | result | failed checks | time |
 |---|---|---|---|---|
-| cat-vs-cucumbers | v1 | ✅ PASS | - | 65.5s |
-| penguin-slide | v2 | ✅ PASS | - | 71.2s |
-| comet-dash | v1 | ✅ PASS | - | 53.8s |
+| cat-vs-cucumbers | v1 | ✅ PASS | - | 59.9s |
+| penguin-slide | v2 | ✅ PASS | - | 70.9s |
+| comet-dash | v1 | ✅ PASS | - | 42.2s |
 
 ## collision-disabled (3/3 caught)
 
@@ -34,7 +34,7 @@ _Planted: score never increases._
 
 | game | mutant | what was planted | result | which checks caught it |
 |---|---|---|---|---|
-| cat-vs-cucumbers | `cat-vs-cucumbers-score-frozen` | The per-second score timer is clamped at 0 with Math.max but then tested with `< 0`, so it never fires and the score stays 0. | ✅ caught | A1 score increases while playing; playtest ran to the end |
+| cat-vs-cucumbers | `cat-vs-cucumbers-score-frozen` | The per-second score timer is clamped at 0 with Math.max but then tested with `< 0`, so it never fires and the score stays 0. | ✅ caught | A1 score increases while playing |
 | penguin-slide | `penguin-slide-score-frozen` | Both score calls now go through a new addPoints() helper whose guard checks scene === 'play' instead of 'playing', so neither the per-second tick nor fish pickups ever add score. | ✅ caught | A1 score increases while playing; A4 grabbing a fish adds +10 score and removes it |
 | comet-dash | `comet-dash-score-frozen` | The once-a-second score timer counts up instead of down (scoreTimer += dt), so survival points never fire and only star pickups can still add score. | ✅ caught | A1 score increases while playing |
 
@@ -64,8 +64,8 @@ _Planted: an error is logged when the game starts._
 
 | game | mutant | what was planted | result | which checks caught it |
 |---|---|---|---|---|
-| cat-vs-cucumbers | `cat-vs-cucumbers-console-error` | Game.init() restores saved cat settings with JSON.parse(localStorage.getItem('cvc-cat') \|\| ''), which throws on a fresh browser and is logged with console.error at boot and on every run start. | ✅ caught | loads without errors |
-| penguin-slide | `penguin-slide-console-error` | Game.init() now loads a saved penguin skin with JSON.parse(localStorage.getItem(...) \|\| ''), which throws on the empty fallback when nothing is saved, so a console.error is logged at boot and every time a run starts. | ✅ caught | loads without errors |
+| cat-vs-cucumbers | `cat-vs-cucumbers-console-error` | Game.init() restores saved cat settings with JSON.parse(localStorage.getItem('cvc-cat') \|\| ''), which throws on a fresh browser and is logged with console.error at boot and on every run start. | ✅ caught | loads without errors; 20 s random input, no exceptions |
+| penguin-slide | `penguin-slide-console-error` | Game.init() now loads a saved penguin skin with JSON.parse(localStorage.getItem(...) \|\| ''), which throws on the empty fallback when nothing is saved, so a console.error is logged at boot and every time a run starts. | ✅ caught | loads without errors; 20 s random input, no exceptions |
 | comet-dash | `comet-dash-console-error` | Game.init() gained a floor sanity check with its comparison inverted (CAT.y > view.h / 2), so it console.error()s on every init: boot, start and reset. | ✅ caught | loads without errors; 20 s random input, no exceptions |
 
 ## fps-killer (3/3 caught)

@@ -4,6 +4,7 @@
 // fast checks, each group in its own throwaway studio under .verify/ (removed at the end).
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import YAML from 'yaml';
 import { REPO, SAMPLE_GAMES, makeStudio, removeStudio, runTool, runNode, pool, latest } from './lib/temp-studio.mjs';
 
@@ -107,11 +108,31 @@ async function fastChecks() {
   report(70, 'live-instructions.mjs --check exits 0', li.code === 0, short(li.out));
 }
 
+// ---- 8. "Caught on camera": clip.mjs GIFs are the playtest's own run (studio E, one Chromium at a time).
+async function clips() {
+  const E = studio('clips', ['comet-dash', 'penguin-slide']);
+  const gif = path.join(E, 'games', 'comet-dash', 'v1', 'clip.gif');
+  const sha = () => fs.existsSync(gif) ? crypto.createHash('sha256').update(fs.readFileSync(gif)).digest('hex') : '';
+  const a = await runTool(E, 'clip', ['comet-dash', '1'], { timeout: 120_000 });
+  const frames = Number(a.out.match(/(\d+) frames/)?.[1] || 0), size = fs.existsSync(gif) ? fs.statSync(gif).size : 0;
+  report(80, `clip.mjs comet-dash 1 makes clip.gif (${(size / 1048576).toFixed(2)} MB < 5 MB, ${frames} frames >= 30)`,
+    a.code === 0 && size > 0 && size < 5 * 1048576 && frames >= 30, a.code ? short(a.out) : `size ${size} B, ${frames} frames`);
+  const first = sha();
+  const b = await runTool(E, 'clip', ['comet-dash', '1'], { timeout: 120_000 });
+  report(81, `same inputs, same bytes: clip.gif sha256 identical over two runs (${first.slice(0, 12)})`,
+    b.code === 0 && first && sha() === first, b.code ? short(b.out) : `${first.slice(0, 12)} vs ${sha().slice(0, 12)}`);
+  const fix = path.join(E, 'games', 'penguin-slide', 'v2', 'fix-1.gif');
+  const c = await runTool(E, 'clip', ['penguin-slide', '2', '--repro', 'repro-1.json', '--vs', '1'], { timeout: 120_000 });
+  const left = /^v1 repro-1\.json .* FAILS/m.test(c.out), right = /^v2 repro-1\.json .* PASSES/m.test(c.out);
+  report(82, 'clip.mjs penguin-slide 2 --repro repro-1.json --vs 1 makes fix-1.gif: v1 check fails (bug on camera), v2 passes',
+    c.code === 0 && fs.existsSync(fix) && left && right, c.code ? short(c.out) : !fs.existsSync(fix) ? 'fix-1.gif missing' : short(c.out));
+}
+
 const guard = (order, name, p) => p.catch(e => report(order, name, false, `crashed: ${e.message}`));
 let code = 1;
 try {
-  console.log('verify: 3 playtests in parallel (~1-2 min) + fast checks, in temp studios under .verify/');
-  await Promise.all([guard(29, 'playtests', playtests()), guard(39, 'bug repro', repro()), guard(69, 'fast checks', fastChecks())]);
+  console.log('verify: 3 playtests in parallel (~1-2 min) + fast checks + clips, in temp studios under .verify/');
+  await Promise.all([guard(29, 'playtests', playtests()), guard(39, 'bug repro', repro()), guard(69, 'fast checks', fastChecks()), guard(79, 'clips', clips())]);
   results.sort((a, b) => a[0] - b[0]);
   for (const [, line] of results) console.log(line);
   const failed = results.filter(([, l]) => l.startsWith('FAIL')).length;
