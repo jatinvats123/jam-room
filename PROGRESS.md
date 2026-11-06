@@ -61,3 +61,7 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 - Deviations: no room-documents row (U5 not shipped); sender identity added as its own row (from U1).
 - Open: fill the Demo column after the Phase 5 recording; refusal screenshot still waits on the U1 smoke test. Not committed: the working tree also holds uncommitted U2 work.
 - Next step: U4 (jam replay page); in Phase 5, use the SWITCH_FEATURES table as a video slide.
+
+## U2 CI fix (2026-11-06 13:20 IST): DONE
+- Done: playtest.mjs pauses the fake clock (same results on every machine; a frozen game FAILs after 20 s instead of hanging) and runs the key checks before the scenario with no time-budget skip. Local: `npm run verify` 17/17, `npm run eval` 21/21 caught, 0 false FAILs. Live studio synced (tools/playtest.mjs) and pushed with the U1 studio commit.
+- Next step: confirm the GitHub Actions run is green; then U1 Console clicks, U4, Phase 5.
