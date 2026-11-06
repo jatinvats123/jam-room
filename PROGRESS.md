@@ -65,3 +65,8 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 ## U2 CI fix (2026-11-06 13:20 IST): DONE
 - Done: playtest.mjs pauses the fake clock (same results on every machine; a frozen game FAILs after 20 s instead of hanging) and runs the key checks before the scenario with no time-budget skip. Local: `npm run verify` 17/17, `npm run eval` 21/21 caught, 0 false FAILs. Live studio synced (tools/playtest.mjs) and pushed with the U1 studio commit.
 - Next step: confirm the GitHub Actions run is green; then U1 Console clicks, U4, Phase 5.
+
+## Nov 6 (CI): jam-room on GitHub (private) + CI green
+- Done: repo jatinvats123/jam-room created PRIVATE (history scanned: no tokens/keys/Discord ids), main pushed. First CI run failed comet-dash A4 (real time leaking into the fake clock). Fixed in playtest.mjs (paused clock, 20 s freeze guard, key checks before the scenario, never skipped). CI run 42182205060 on a7efd63: VERIFY PASS 17/17, eval 21/21 caught, 0 false FAILs (same on this PC).
+- Open: make jam-room PUBLIC before submitting (badge only renders then); PROGRESS/DECISIONS name the second Discord account (billusanda5808). Live studio C:\Users\jatin\jam-studio still has the old tools/playtest.mjs (plus an uncommitted change) and 1 unpushed commit (1696c36, U1).
+- Next step: copy the new playtest.mjs into the live studio (re-run setup-studio.ps1) before recording; then U4.
