@@ -70,3 +70,8 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 - Done: repo jatinvats123/jam-room created PRIVATE (history scanned: no tokens/keys/Discord ids), main pushed. First CI run failed comet-dash A4 (real time leaking into the fake clock). Fixed in playtest.mjs (paused clock, 20 s freeze guard, key checks before the scenario, never skipped). CI run 42182205060 on a7efd63: VERIFY PASS 17/17, eval 21/21 caught, 0 false FAILs (same on this PC).
 - Open: make jam-room PUBLIC before submitting (badge only renders then); PROGRESS/DECISIONS name the second Discord account (billusanda5808). Live studio C:\Users\jatin\jam-studio still has the old tools/playtest.mjs (plus an uncommitted change) and 1 unpushed commit (1696c36, U1).
 - Next step: copy the new playtest.mjs into the live studio (re-run setup-studio.ps1) before recording; then U4.
+
+## CI fix, part 2 (2026-11-06 14:15 IST): DONE
+- Correction: "CI green" above was luck. Run 42182338923 (same code) failed comet-dash A4 again. Real cause: Playwright gives a new page the clock time at which it was really paused, so the frame phase depended on machine speed (local runs ended A4 on frame 497 or 498). Fix: freshPage() fast-forwards to the next 16 ms frame-grid point (8/8 parallel runs identical), behind the freeze guard; comet-dash A4 scenario was luck too (cat parked 11 px past the star), now presses 550 ms (520-590 all work) with a 4 s window. See DECISIONS.
+- Local: verify 17/17, eval 21/21 caught, 0 false FAILs. Live studio: tools/playtest.mjs + comet-dash v1 scenario.json synced.
+- Next step: CI green check; then "Caught on camera" (gameplay GIFs via send_attachment) if the user says go; U1 Console clicks; Phase 5.
