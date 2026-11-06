@@ -1,8 +1,8 @@
 # Playtester eval: planted bugs
 
-_Generated 2026-11-06 10:18 UTC by `npm run eval` in 8.6 min._
+_Generated 2026-11-06 12:50 UTC by `npm run eval` in 8.1 min._
 
-**Caught 21/21 planted bugs · 0 false FAILs on 3 clean games**
+**Caught 20/21 planted bugs · 0 false FAILs on 3 clean games**
 
 ## How it works
 
@@ -14,9 +14,9 @@ Reproduce: `npm install && npx playwright install chromium`, then `npm run eval`
 
 | game | version | result | failed checks | time |
 |---|---|---|---|---|
-| cat-vs-cucumbers | v1 | ✅ PASS | - | 59.9s |
-| penguin-slide | v2 | ✅ PASS | - | 70.9s |
-| comet-dash | v1 | ✅ PASS | - | 42.2s |
+| cat-vs-cucumbers | v1 | ✅ PASS | - | 59.6s |
+| penguin-slide | v2 | ✅ PASS | - | 69.3s |
+| comet-dash | v1 | ✅ PASS | - | 42.4s |
 
 ## collision-disabled (3/3 caught)
 
@@ -68,7 +68,7 @@ _Planted: an error is logged when the game starts._
 | penguin-slide | `penguin-slide-console-error` | Game.init() now loads a saved penguin skin with JSON.parse(localStorage.getItem(...) \|\| ''), which throws on the empty fallback when nothing is saved, so a console.error is logged at boot and every time a run starts. | ✅ caught | loads without errors; 20 s random input, no exceptions |
 | comet-dash | `comet-dash-console-error` | Game.init() gained a floor sanity check with its comparison inverted (CAT.y > view.h / 2), so it console.error()s on every init: boot, start and reset. | ✅ caught | loads without errors; 20 s random input, no exceptions |
 
-## fps-killer (3/3 caught)
+## fps-killer (2/3 caught)
 
 _Planted: a busy loop per frame drops the frame rate._
 
@@ -76,7 +76,7 @@ _Planted: a busy loop per frame drops the frame rate._
 |---|---|---|---|---|
 | cat-vs-cucumbers | `cat-vs-cucumbers-fps-killer` | Game.update() computes a cosmetic fur-wobble value by summing 800,000 Math.sin samples every update (~40 ms of CPU per step), which tanks the frame rate. | ✅ caught | frame rate >= 30 fps |
 | penguin-slide | `penguin-slide-fps-killer` | Game.draw() now starts with a busy-wait "frame pacing" loop that holds every frame for 40 ms, so the frame rate drops to roughly 20-25 fps. | ✅ caught | frame rate >= 30 fps; playtest ran to the end |
-| comet-dash | `comet-dash-fps-killer` | Game.update() re-rolls the twinkle table once per screen RGBA byte (view.w * view.h * 4 iterations, about 40 ms) instead of once per twinkle, every update. | ✅ caught | frame rate >= 30 fps |
+| comet-dash | `comet-dash-fps-killer` | Game.update() re-rolls the twinkle table once per screen RGBA byte (view.w * view.h * 4 iterations, about 40 ms) instead of once per twinkle, every update. | ❌ missed | - (PASS, 19/19 checks) |
 
 ## restart-broken (3/3 caught)
 
@@ -90,4 +90,4 @@ _Planted: Space/Enter after game over does not start a new run._
 
 ## Misses
 
-None.
+- **comet-dash** `comet-dash-fps-killer` (fps-killer): Game.update() re-rolls the twinkle table once per screen RGBA byte (view.w * view.h * 4 iterations, about 40 ms) instead of once per twinkle, every update.. The playtest passed all 19 hard checks.
