@@ -55,3 +55,9 @@ Each phase appends 5 lines: done, deviations, open issues, next step.
 - Deviations: none in design; approvers live only in Console (templates can't name people).
 - Open: paste the 3 blocks + set the builder's Custom rule in Console, !reset-all-agents in each room, smoke test "@builder ship it" from the second account → screenshot docs/media/refusal.png.
 - Next step: user does the Console clicks below, then the smoke test; then U2.
+
+## U3 (2026-11-06): docs/SWITCH_FEATURES.md: DONE (demo timestamps pending)
+- Done: 11-row map (rooms, create_room_from_yaml, links + cross-room post, aliases, @mention handoff, Claude Code + Codex agents, addressing + refusals, approval card, sender ids, templates/allow_existing, !reset-all-agents), each with file:line refs into both templates, setup scripts, .claude/settings.json, playtest.mjs, live-instructions.mjs; "What Switch doesn't do here" list (9 items). Linked from README's top line and its "Why Switch" section.
+- Deviations: no room-documents row (U5 not shipped); sender identity added as its own row (from U1).
+- Open: fill the Demo column after the Phase 5 recording; refusal screenshot still waits on the U1 smoke test. Not committed: the working tree also holds uncommitted U2 work.
+- Next step: U4 (jam replay page); in Phase 5, use the SWITCH_FEATURES table as a video slide.

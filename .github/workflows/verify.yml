@@ -1,0 +1,33 @@
+# Proves the README's claims on every push, with no Discord, Switch or credentials:
+# npm run verify (studio tools, sample games, remix, bug-repro replay, arcade, templates)
+# and npm run eval (the playtester against planted-bug mutants of the sample games).
+name: verify
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Headless Chromium for the playtester
+        run: npx playwright install --with-deps chromium
+      - name: npm run verify
+        run: npm run verify
+      - name: npm run eval (planted bugs)
+        run: npm run eval
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: docs/eval.md

@@ -1,5 +1,10 @@
 # Jam Room
 
+[![verify](https://github.com/jatinvats123/jam-room/actions/workflows/verify.yml/badge.svg)](https://github.com/jatinvats123/jam-room/actions/workflows/verify.yml)
+· **Check every claim yourself:** [JUDGING.md](JUDGING.md) (`npm run verify`, no Discord or Switch needed)
+· **Playtester eval:** [docs/eval.md](docs/eval.md)
+· **Remove Switch and this breaks:** [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md)
+
 Make tiny browser games with your friends by chatting in Discord. Three Switch agents
 (designer, builder, playtester) turn the group's ideas into a playable link. Every approved
 game gets its own room, friends iterate (v2, v3…), remix each other's games, and report bugs
@@ -24,7 +29,9 @@ that the agents reproduce and hotfix.
 ## Why Switch
 
 Jam Room has no server of its own: every row below is Switch doing the work. **Enforced by
-Switch** means the rule holds even if an agent's instructions are ignored or rewritten.
+Switch** means the rule holds even if an agent's instructions are ignored or rewritten. The full
+map (every feature → file:line → what breaks without it, plus what Switch *doesn't* do here) is
+[docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md).
 
 | What happens | Switch feature | Enforced by Switch? |
 |---|---|---|

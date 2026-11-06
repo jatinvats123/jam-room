@@ -57,7 +57,7 @@ const priv = http.createServer((req, res) => {
 });
 await new Promise(r => priv.listen(0, '127.0.0.1', r));
 const gameUrl = `http://127.0.0.1:${priv.address().port}/games/${slug}/v${n}/`;
-if (!only) ensureStudioServer();
+if (!only && !process.env.JAM_NO_SERVE) ensureStudioServer(); // JAM_NO_SERVE=1: verify/eval runs, no :8080
 
 function ensureStudioServer() {
   const req = http.get('http://localhost:8080/', res => res.resume());
