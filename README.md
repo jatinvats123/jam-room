@@ -256,7 +256,7 @@ can stay locked to approvers.
 
 The build prompts, the agents' instructions, these docs and the game pitches in Discord were
 dictated with Wispr Flow (hold Caps Lock, talk). In the demo, the Diwali Rocket pitch is spoken,
-not typed.
+not typed. Wispr Insights at submission: 132 words per minute (top 0.4%), 549 words dictated, 94 fixes by Flow, 3-day streak.
 
 ## More
 
