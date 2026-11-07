@@ -1,21 +1,89 @@
 # Jam Room
 
+**Friends make tiny browser games just by chatting in Discord.** Three Switch agents do the
+work: a designer (Claude Code) turns the group's ideas into a plan, a builder (Claude Code)
+writes the game on your own PC, and a playtester (Codex · OpenAI) plays it in a real browser.
+Nothing goes public until a human taps Allow on Switch's permission card.
+
 [![verify](https://github.com/jatinvats123/jam-room/actions/workflows/verify.yml/badge.svg)](https://github.com/jatinvats123/jam-room/actions/workflows/verify.yml)
-· **Check every claim yourself:** [JUDGING.md](JUDGING.md) (`npm run verify`, no Discord or Switch needed)
-· **Playtester eval:** [docs/eval.md](docs/eval.md)
-· **Remove Switch and this breaks:** [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md)
 
-Make tiny browser games with your friends by chatting in Discord. Three Switch agents
-(designer, builder, playtester) turn the group's ideas into a playable link. Every approved
-game gets its own room, friends iterate (v2, v3…), remix each other's games, and report bugs
-that the agents reproduce and hotfix.
+| ▶️ Watch the demo | 🎮 Play the arcade | ✅ Check every claim | ⚡ Remove Switch and this breaks |
+|---|---|---|---|
+| [YouTube (6 min)](VIDEO_URL) | [jam-studio-arcade](https://jatinvats123.github.io/jam-studio-arcade/) | [JUDGING.md](JUDGING.md) · `npm run verify` (20/20, no Discord needed) | [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md) |
 
-▶️ **Watch the demo:** _video link coming_ · 🎮 **Play the arcade:** https://jatinvats123.github.io/jam-studio-arcade/
+[![Jam Room demo video](docs/media/thumbnail.png)](VIDEO_URL)
+
+Built for the **Flip the Switch** hackathon (WeMakeDevs × Switch), Track 02: Best Personal or
+Creative Workflow. Built by voice with Wispr Flow.
 
 **Who it's for:** friend groups and game-night Discord servers, and kids or students learning
 game design by watching the agents work and asking them how things work.
 
-## Caught on camera
+## What happens (the real run from the demo, Nov 7)
+
+1. **Pitch by voice.** In the `#jam-room` lobby I said, through Wispr Flow: *"@designer new game:
+   a Diwali rocket climbs into the night sky, dodging kites and grabbing diyas for points."*
+2. **Plan, then a human approves.** The designer replied with controls, scoring and an
+   acceptance checklist. Nothing is built until someone replies `@designer approve`.
+3. **A room per game.** The designer called Switch's `create_room_from_yaml` with
+   [`templates/jam-game-room.template.yaml`](templates/jam-game-room.template.yaml): a new
+   Discord channel `#game-diwali-rocket` appeared with all three agents, their short names and a
+   kickoff that hands the builder its job. The lobby got a link to it.
+4. **Build → handoff → test.** The builder (Claude Code) wrote one HTML file, then
+   `@jam-playtester-gpt please test diwali-rocket v1`. Switch delivered the mention and woke the
+   Codex playtester, which played the game headlessly against the checklist: **PASS 18/18,
+   61 fps**, and posted a GIF of its own test run through Switch.
+5. **Human approval → live.** The builder's publish command triggered a Claude Code permission
+   request, which Switch shows as a **Permission needed** card in Discord. Only approvers can
+   answer it. One tap on Allow, and the game was live on GitHub Pages, with a "Now playing" note
+   posted back in the lobby (a cross-room post).
+6. **Rules enforced by Switch.** A friend who isn't an approver typed `@builder ship it` and got
+   Switch's own refusal before the agent saw it. The same friend asked the designer
+   *"explain how do the kites move?"* and got a plain answer.
+7. **Bug → reproduced → hotfix.** In `#game-monsoon-dash` the friend sent a phone screenshot:
+   *"my scooter rides off the road onto the sidewalk"*. The playtester replayed it, saved it as
+   `repro-1.json`, posted a ❌ clip, and handed the hotfix to the builder. v2 passed **20/20**
+   and went live with a side-by-side clip and a 🐛 bug hunter credit:
+
+![Monsoon Dash: the friend's sidewalk bug on v1 (left) and the same moves on the v2 hotfix (right)](docs/media/monsoon-fix.gif)
+
+## How it works
+
+```mermaid
+flowchart LR
+  subgraph Discord
+    L["jam-room lobby"]
+    G["game-slug rooms"]
+  end
+  subgraph Switch["Switch: local server + Console"]
+    R["Rooms, links, aliases"]
+    T["Room template<br/>create_room_from_yaml"]
+    A["Addressing policy<br/>+ permission cards"]
+  end
+  subgraph PC["Agents on my PC"]
+    D["Designer<br/>Claude Code"]
+    B["Builder<br/>Claude Code"]
+    P["Playtester<br/>Codex"]
+  end
+  S[("Studio folder<br/>games/slug/vN")]
+  W["GitHub Pages arcade"]
+  L <--> R
+  G <--> R
+  D -- "approved plan" --> T --> G
+  D -- "@builder" --> B
+  B -- "@tester test" --> P
+  P -- "PASS: ship it" --> B
+  B -- "publish asks" --> A
+  B --> S
+  P --> S
+  S --> W
+```
+
+Switch is the only server. Agents talk to people and to each other only through Switch rooms;
+the studio folder is plain files (spec, `index.html` per version, scenario, playtest result,
+clips), and `tools/publish.mjs` pushes it to GitHub Pages.
+
+## Caught on camera: another hotfix (Penguin Slide)
 
 ![Penguin Slide: a friend's wall-hugging bug on v1 (left) and the same moves on the v2 hotfix (right)](examples/games/penguin-slide/v2/fix-1.gif)
 
@@ -188,7 +256,7 @@ can stay locked to approvers.
 
 The build prompts, the agents' instructions, these docs and the game pitches in Discord were
 dictated with Wispr Flow (hold Caps Lock, talk). In the demo, the Diwali Rocket pitch is spoken,
-not typed. Insights screenshot: _added at submission_.
+not typed.
 
 ## More
 
