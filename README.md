@@ -10,6 +10,11 @@ Make tiny browser games with your friends by chatting in Discord. Three Switch a
 game gets its own room, friends iterate (v2, v3…), remix each other's games, and report bugs
 that the agents reproduce and hotfix.
 
+▶️ **Watch the demo:** _video link coming_ · 🎮 **Play the arcade:** https://jatinvats123.github.io/jam-studio-arcade/
+
+**Who it's for:** friend groups and game-night Discord servers, and kids or students learning
+game design by watching the agents work and asking them how things work.
+
 ## Caught on camera
 
 ![Penguin Slide: a friend's wall-hugging bug on v1 (left) and the same moves on the v2 hotfix (right)](examples/games/penguin-slide/v2/fix-1.gif)
@@ -178,3 +183,17 @@ reads the game's latest version and answers in plain language in at most 8 lines
 does, then one idea to try changing), with at most one code block of up to 8 lines copied from
 the game. It changes no files. Explaining lives on the designer, not the builder, so the builder
 can stay locked to approvers.
+
+## Built by voice with Wispr Flow
+
+The build prompts, the agents' instructions, these docs and the game pitches in Discord were
+dictated with Wispr Flow (hold Caps Lock, talk). In the demo, the Diwali Rocket pitch is spoken,
+not typed. Insights screenshot: _added at submission_.
+
+## More
+
+- Gotchas and design choices: [DECISIONS.md](DECISIONS.md)
+- Build log: [PROGRESS.md](PROGRESS.md)
+- Demo plan: [docs/demo-script.md](docs/demo-script.md)
+- License: [LICENSE](LICENSE). Built for the Flip the Switch hackathon with Switch, Claude Code,
+  Codex and Wispr Flow.
