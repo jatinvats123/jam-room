@@ -389,8 +389,7 @@ jam-room/
 
 I used Wispr Flow (hold Caps Lock, talk) through the build to dictate my prompts to Claude Code
 and the game pitches in Discord. In the demo, the Diwali Rocket pitch is spoken, not typed.
-Wispr Insights at submission: 132 words per minute (top 0.4%), 549 words dictated, 94 fixes by
-Flow, a 3-day streak.
+Wispr Insights at submission: 132 words per minute (top 0.4%) and a 3-day streak.
 
 ## Limits and honest notes
 
