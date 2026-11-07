@@ -9,9 +9,9 @@ Nothing goes public until a human taps Allow on Switch's permission card.
 
 | ▶️ Watch the demo | 🎮 Play the arcade | ✅ Check every claim | ⚡ Remove Switch and this breaks |
 |---|---|---|---|
-| [YouTube (6 min)](VIDEO_URL) | [jam-studio-arcade](https://jatinvats123.github.io/jam-studio-arcade/) | [JUDGING.md](JUDGING.md) · `npm run verify` (20/20, no Discord needed) | [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md) |
+| [YouTube (6 min)](https://youtu.be/M0vdHaCSV5Q) | [jam-studio-arcade](https://jatinvats123.github.io/jam-studio-arcade/) | [JUDGING.md](JUDGING.md) · `npm run verify` (20/20, no Discord needed) | [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md) |
 
-[![Jam Room demo video](docs/media/thumbnail.png)](VIDEO_URL)
+[![Jam Room demo video](docs/media/thumbnail.png)](https://youtu.be/M0vdHaCSV5Q)
 
 Built for the **Flip the Switch** hackathon (WeMakeDevs × Switch), Track 02: Best Personal or
 Creative Workflow. Built by voice with Wispr Flow.
