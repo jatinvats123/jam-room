@@ -5,3 +5,4 @@ node_modules/
 
 # internal build log (kept locally, not published)
 PROGRESS.md
+docs/verify.md

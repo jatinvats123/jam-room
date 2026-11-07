@@ -12,7 +12,7 @@ real browser. Nothing goes public until a human taps Allow on Switch's permissio
 
 | ▶️ Watch the demo | 🎮 Play the arcade | ✅ Check every claim | ⚡ Remove Switch and this breaks |
 |---|---|---|---|
-| [YouTube (6 min)](https://youtu.be/M0vdHaCSV5Q) | [jam-studio-arcade](https://jatinvats123.github.io/jam-studio-arcade/) | [docs/verify.md](docs/verify.md) · `npm run verify` (20/20, no Discord needed) | [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md) |
+| [YouTube (6 min)](https://youtu.be/M0vdHaCSV5Q) | [jam-studio-arcade](https://jatinvats123.github.io/jam-studio-arcade/) | [Option A](#option-a-check-every-claim-in-about-3-minutes-no-discord-no-switch-no-keys) · `npm run verify` (20/20, no Discord needed) | [docs/SWITCH_FEATURES.md](docs/SWITCH_FEATURES.md) |
 
 [![Jam Room demo video](docs/media/thumbnail.png)](https://youtu.be/M0vdHaCSV5Q)
 
@@ -197,8 +197,7 @@ npm run verify      # 20 claims, one PASS/FAIL line each; exit code 0 = all pass
 
 It replays the three real agent-made games in [examples/games/](examples/games/): static checks,
 headless playtests, the saved bug repro failing on v1 and passing on the hotfix, a remix, both
-Switch templates parsing, and byte-identical GIF clips. CI runs it on every push. Details:
-[docs/verify.md](docs/verify.md).
+Switch templates parsing, and byte-identical GIF clips. CI runs it on every push.
 
 ### Option B: run the whole studio (Switch + Discord)
 
@@ -382,7 +381,7 @@ jam-room/
 │  └─ .claude/settings.json   the "ask" rule that becomes Switch's permission card
 ├─ scripts/                   setup-studio.ps1/.sh, live-instructions.mjs, verify.mjs, eval-playtest.mjs
 ├─ examples/games/            three games the agents made in Discord, copied unedited
-├─ docs/                      verify (check every claim), SWITCH_FEATURES, eval, live agent instructions, media, demo/blog drafts
+├─ docs/                      SWITCH_FEATURES, eval, live agent instructions, media, demo/blog drafts
 └─ DECISIONS.md               problem → choice → why, one line each
 ```
 
