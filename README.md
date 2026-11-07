@@ -389,6 +389,7 @@ jam-room/
 
 I used Wispr Flow (hold Caps Lock, talk) through the build to dictate my prompts to Claude Code
 and the game pitches in Discord. In the demo, the Diwali Rocket pitch is spoken, not typed.
+By submission day Wispr Flow had transcribed more than 10,000 of my words.
 
 ## Limits and honest notes
 
