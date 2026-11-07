@@ -71,10 +71,10 @@ game design by watching the agents work and asking them how things work.
    request, which Switch shows as a **Permission needed** card in Discord. Only approvers can
    answer it. One tap on Allow, and the game was live on GitHub Pages, with a "Now playing" note
    posted back in the lobby (a cross-room post).
-6. **Rules enforced by Switch.** A friend who isn't an approver typed `@builder ship it` and got
-   Switch's own refusal before the agent saw it. The same friend asked the designer
+6. **Rules enforced by Switch.** A second Discord account ("Rohan", playing a friend who isn't an approver) typed `@builder ship it` and got
+   Switch's own refusal before the agent saw it. The same account asked the designer
    *"explain how do the kites move?"* and got a plain answer.
-7. **Bug → reproduced → hotfix.** In `#game-monsoon-dash` the friend sent a phone screenshot:
+7. **Bug → reproduced → hotfix.** In `#game-monsoon-dash` "Rohan" sent a phone screenshot:
    *"my scooter rides off the road onto the sidewalk"*. The playtester replayed it, saved it as
    `repro-1.json`, posted a ❌ clip, and handed the hotfix to the builder. v2 passed **20/20**
    and went live with a side-by-side clip and a 🐛 bug hunter credit:
@@ -410,4 +410,4 @@ not typed. Wispr Insights at submission: 132 words per minute (top 0.4%), 549 wo
 
 Built by Jatin Vats for Flip the Switch (WeMakeDevs × Switch, Nov 2026) with
 [Switch](https://github.com/sandbox-quantum/switch), Claude Code, Codex and Wispr Flow.
-Friend in the demo: Rohan (bug hunter). License: [MIT](LICENSE).
+"Rohan" in the demo is a second Discord account playing a friend who isn't an approver. License: [MIT](LICENSE).
