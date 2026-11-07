@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jam Room intro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #eee8dc; --ink: #1b1a17; --soft: #6f6a60; --hair: #1b1a1733; --red: #d9432a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--paper); color: var(--ink); overflow: hidden; cursor: none; user-select: none;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  /* paper grain */
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .09  0 0 0 0 .08  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+  .frame { position: absolute; inset: 4.5vh 4vw; display: grid; grid-template-rows: auto 1fr auto; }
+  .bar { display: flex; justify-content: space-between; font-size: .85vw; letter-spacing: .14em; text-transform: uppercase; padding: 1.2vh 0; }
+  .bar.top { border-bottom: 1px solid var(--ink); }
+  .bar.bottom { border-top: 1px solid var(--ink); }
+  .main { display: grid; grid-template-columns: 1fr 1fr; gap: 4vw; min-height: 0; }
+
+  /* left: the poster */
+  .poster { position: relative; display: flex; flex-direction: column; justify-content: center; }
+  .sun { position: absolute; width: 24vw; height: 24vw; border-radius: 50%; background: var(--red); left: 15vw; top: 50%; transform: translateY(-62%); }
+  .word { position: relative; font-size: 15vw; line-height: .82; letter-spacing: -.035em; }
+  .word.it { font-style: italic; padding-left: 5vw; }
+  .tagline { position: relative; margin-top: 4vh; font-size: 1vw; letter-spacing: .06em; color: var(--soft); max-width: 26vw; line-height: 1.7; }
+
+  /* right: what you say, revealed line by line */
+  .notes { display: flex; flex-direction: column; justify-content: center; gap: 4.5vh; }
+  .block { border-top: 1px solid var(--hair); padding-top: 2vh; }
+  .label { font-size: .8vw; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); margin-bottom: 1.4vh; display: flex; justify-content: space-between; }
+  .big { font-size: 2.6vw; line-height: 1.12; letter-spacing: -.01em; }
+  .big em { color: var(--red); }
+  .chat { margin-top: 1.6vh; font-size: .95vw; color: var(--soft); }
+  .chat b { color: var(--ink); font-weight: 500; }
+  .row { display: grid; grid-template-columns: 3vw 1fr auto; align-items: baseline; padding: 1vh 0; border-bottom: 1px solid var(--hair); }
+  .row:last-child { border-bottom: 0; }
+  .row .n { font-size: .85vw; color: var(--red); }
+  .row .who { font-size: 2.1vw; }
+  .row .who small { font-family: "IBM Plex Mono", monospace; font-size: .85vw; color: var(--soft); margin-left: 1vw; letter-spacing: .02em; }
+  .row .tool { font-size: .8vw; letter-spacing: .1em; text-transform: uppercase; }
+  .list { margin-top: 1.6vh; display: grid; grid-template-columns: 1fr 1fr; gap: 1vh 2vw; font-size: .95vw; }
+  .list div::before { content: "→ "; color: var(--red); }
+  .list code { display: block; margin-left: 1.3em; font-family: inherit; font-size: .72vw; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+  .d4 { transition-delay: 1.4s; } .d5 { transition-delay: 1.75s; }
+
+  .reveal { opacity: 0; transform: translateY(1.2vh); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.on { opacity: 1; transform: none; }
+  .d1 { transition-delay: .35s; } .d2 { transition-delay: .7s; } .d3 { transition-delay: 1.05s; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="bar top"><span>Flip the Switch — WeMakeDevs</span><span>Track 02 · Creative workflow</span><span>No. 01</span></div>
+
+  <div class="main">
+    <div class="poster">
+      <div class="sun"></div>
+      <div class="word serif">Jam</div>
+      <div class="word serif it">Room</div>
+      <p class="tagline">Tiny games, made by friends,<br>inside a group chat.</p>
+    </div>
+
+    <div class="notes">
+      <div class="block reveal" data-step="1">
+        <div class="label"><span>The idea</span><span>01</span></div>
+        <p class="big serif">Friends make small browser games just by <em>chatting</em> in Discord.</p>
+        <p class="chat"><b>jatin</b> &nbsp;@designer new game: a Diwali rocket dodging kites</p>
+      </div>
+
+      <div class="block reveal" data-step="2">
+        <div class="label"><span>The crew</span><span>02</span></div>
+        <div class="row reveal" data-step="2"><span class="n">01</span><span class="who serif">Designer<small>plans it</small></span><span class="tool">Claude Code</span></div>
+        <div class="row reveal d1" data-step="2"><span class="n">02</span><span class="who serif">Builder<small>codes it</small></span><span class="tool">Claude Code</span></div>
+        <div class="row reveal d2" data-step="2"><span class="n">03</span><span class="who serif">Playtester<small>tests it</small></span><span class="tool">Codex · OpenAI</span></div>
+      </div>
+
+      <div class="block reveal" data-step="3">
+        <div class="label"><span>The engine</span><span>03</span></div>
+        <p class="big serif">Everything runs on <em>Switch.</em></p>
+        <div class="list">
+          <div class="reveal" data-step="3">connects agents to Discord<code>messaging bridge</code></div>
+          <div class="reveal d1" data-step="3">a room for every game<code>create_room_from_yaml</code></div>
+          <div class="reveal d2" data-step="3">passes work agent to agent<code>@mention handoff</code></div>
+          <div class="reveal d3" data-step="3">a human says yes first<code>approval card</code></div>
+          <div class="reveal d4" data-step="3">blocks non-approvers<code>addressing policy</code></div>
+          <div class="reveal d5" data-step="3">Claude + Codex, one room<code>multi-provider agents</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar bottom"><span>by Jatin</span><span>built on Switch</span><span>07 · 11 · 2026</span></div>
+</div>
+<script>
+  const MAX = 3; let step = 0;
+  const show = () => document.querySelectorAll('[data-step]').forEach(el => el.classList.toggle('on', step >= +el.dataset.step));
+  addEventListener('keydown', e => {
+    if (['ArrowRight', ' ', 'Enter', 'PageDown'].includes(e.key)) { step = Math.min(MAX, step + 1); e.preventDefault(); }
+    else if (['ArrowLeft', 'Backspace', 'PageUp'].includes(e.key)) { step = Math.max(0, step - 1); e.preventDefault(); }
+    else if (e.key === 'r') step = 0;
+    show();
+  });
+  addEventListener('click', () => { step = Math.min(MAX, step + 1); show(); });
+  show();
+</script>
+</body>
+</html>
