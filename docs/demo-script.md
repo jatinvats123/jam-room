@@ -64,8 +64,9 @@ Then, after the designer's plan:
 
 Expect: plan → new room `#game-diwali-rocket` (lobby gets a link) → builder builds v1 →
 playtester (GPT · Codex) PASS + clip GIF → Permission card → **Allow** → live link.
-**Then open the link on the phone and play for 10 s, filmed with screen mirroring or a second
-phone** (a quick handheld shot is fine).
+**Then open the link on the phone and play for 10 s with the phone's own screen recorder on**
+(Android: Quick settings → Screen record; iPhone: Control Centre → Screen Recording). Send
+the clip to the laptop for the edit. No second phone needed.
 
 ### Take 4: A friend's change → v2, both credited (8–10 min)
 Who: **second account**, in the new game's room:
