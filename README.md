@@ -381,7 +381,7 @@ jam-room/
 │  └─ .claude/settings.json   the "ask" rule that becomes Switch's permission card
 ├─ scripts/                   setup-studio.ps1/.sh, live-instructions.mjs, verify.mjs, eval-playtest.mjs
 ├─ examples/games/            three games the agents made in Discord, copied unedited
-├─ docs/                      SWITCH_FEATURES, eval, live agent instructions, media, demo/blog drafts
+├─ docs/                      SWITCH_FEATURES, playtester eval, live agent instructions, media
 └─ DECISIONS.md               problem → choice → why, one line each
 ```
 

@@ -6,3 +6,11 @@ node_modules/
 # internal build log (kept locally, not published)
 PROGRESS.md
 docs/verify.md
+# internal prep notes (kept locally)
+docs/demo-script.md
+docs/live-script.md
+docs/video-parts.md
+docs/submit-checklist.md
+docs/blog-draft.md
+docs/intro-card.html
+docs/thumbnail/
