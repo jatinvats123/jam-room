@@ -1,7 +1,7 @@
 # Demo video: recording plan + script (2:30 max)
 
 Goal: judges see in 30 s that Switch is essential, watch a game get made from a spoken pitch,
-and know they can reproduce it (JUDGING.md, `npm run verify`).
+and know they can reproduce it (docs/verify.md, `npm run verify`).
 
 **Rule that makes this predictable:** every take is its own recording and doesn't depend on any
 other take. If a take breaks, redo only that one. Waiting parts (build, playtest, Pages) get

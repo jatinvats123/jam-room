@@ -1,4 +1,4 @@
-# Judging guide: check every claim yourself
+# Verify every claim yourself
 
 Everything in part 1 runs on a clean clone with **no Discord, no Switch and no credentials**.
 You need Node 20+ and about 300 MB of disk for headless Chromium.
@@ -11,11 +11,11 @@ npm run verify      # about 2-3 min: one PASS/FAIL line per claim, exit code 0 =
 npm run eval        # about 5-10 min: the playtester against planted bugs, writes docs/eval.md
 ```
 
-CI runs both on every push: [.github/workflows/verify.yml](.github/workflows/verify.yml).
+CI runs both on every push: [.github/workflows/verify.yml](../.github/workflows/verify.yml).
 
 ## 1. Claims you can check offline
 
-The sample games in [examples/games/](examples/games/) were copied unedited from the live
+The sample games in [examples/games/](../examples/games/) were copied unedited from the live
 studio. Agents wrote them in Discord: the spec, the code, the playtest scenario and the bug repro.
 
 | README claim | Command that proves it | Expected output |
@@ -29,7 +29,7 @@ studio. Agents wrote them in Discord: the spec, the code, the playtest scenario 
 | The setup is reproducible from the Switch templates | `npm run verify` (claim: templates) | `PASS templates parse …` |
 | "Caught on camera": the playtester's GIF is the same deterministic run as the test, and the hotfix clip shows the bug on the old version and not on the new one | `npm run verify` (claim: clip) | `PASS clip.mjs comet-dash 1 makes clip.gif …` (< 5 MB, >= 30 frames), `PASS same inputs, same bytes …` (sha256 identical over two runs), `PASS clip.mjs penguin-slide 2 --repro repro-1.json --vs 1 …` (v1 fails, v2 passes) |
 | The Console instructions match the template | `node scripts/live-instructions.mjs --check` | `LIVE INSTRUCTIONS MATCH TEMPLATE` |
-| The playtester catches real bugs and doesn't cry wolf | `npm run eval` | headline `Caught X/Y planted bugs · Z false FAILs` in [docs/eval.md](docs/eval.md) |
+| The playtester catches real bugs and doesn't cry wolf | `npm run eval` | headline `Caught X/Y planted bugs · Z false FAILs` in [docs/eval.md](eval.md) |
 
 ## 2. Claims that need live Discord + Switch
 
@@ -37,14 +37,14 @@ These need the agents running, so here is where to see them.
 
 | Claim | Evidence |
 |---|---|
-| Switch itself refuses a non-approver who @mentions the builder ("You're not permitted to direct messages to me in this room…") | [docs/media/refusal.png](docs/media/refusal.png) · video TBD |
-| Only approvers can answer the 🚀 "Permission needed" publish card, and nothing goes public without it | screenshot TBD · video TBD |
-| An approved plan opens its own `#game-<slug>` room, from a template the designer runs (`create_room_from_yaml`) | video TBD |
-| Designer → builder → playtester hand off by @mention, and FAIL goes back to the builder with the failed checks | video TBD |
-| A friend's `@tester bug: …` becomes a repro → hotfix → publish with "bug hunter" credit | video TBD · result on the live arcade: https://jatinvats123.github.io/jam-studio-arcade/games/penguin-slide/ |
-| Credits follow the Switch sender id, not the typed name (`people.json`) | video TBD |
-| The playtester posts gameplay clips in Discord through Switch (`send_attachment`): ❌ the reproduced bug, 🐛→✅ v<N-1> vs v<N> after the hotfix | screenshot `docs/media/caught-on-camera.png` (after the live test) · video TBD · offline: [examples/games/penguin-slide/v2/fix-1.gif](examples/games/penguin-slide/v2/fix-1.gif) |
-| Cross-vendor: the Codex (GPT) playtester tests what Claude Code built (`playtest.json` records `runner`; the bundled samples predate that field) | video TBD |
+| Switch itself refuses a non-approver who @mentions the builder ("You're not permitted to direct messages to me in this room…") | [video 4:11](https://youtu.be/M0vdHaCSV5Q?t=251) |
+| Only approvers can answer the 🚀 "Permission needed" publish card, and nothing goes public without it | [video 3:11](https://youtu.be/M0vdHaCSV5Q?t=191) (card, Allow) |
+| An approved plan opens its own `#game-<slug>` room, from a template the designer runs (`create_room_from_yaml`) | [video 2:24](https://youtu.be/M0vdHaCSV5Q?t=144) |
+| Designer → builder → playtester hand off by @mention, and FAIL goes back to the builder with the failed checks | [video 2:42](https://youtu.be/M0vdHaCSV5Q?t=162) |
+| A friend's `@tester bug: …` becomes a repro → hotfix → publish with "bug hunter" credit | [video 4:42](https://youtu.be/M0vdHaCSV5Q?t=282) (Monsoon Dash v2) · result on the live arcade: https://jatinvats123.github.io/jam-studio-arcade/games/penguin-slide/ |
+| Credits follow the Switch sender id, not the typed name (`people.json`) | [video 4:42](https://youtu.be/M0vdHaCSV5Q?t=282) (bug hunter credit) |
+| The playtester posts gameplay clips in Discord through Switch (`send_attachment`): ❌ the reproduced bug, 🐛→✅ v<N-1> vs v<N> after the hotfix | [video 3:11](https://youtu.be/M0vdHaCSV5Q?t=191) (test-run GIF) · [video 4:42](https://youtu.be/M0vdHaCSV5Q?t=282) (❌ and side-by-side GIFs) · [docs/media/monsoon-fix.gif](media/monsoon-fix.gif) · offline: [examples/games/penguin-slide/v2/fix-1.gif](../examples/games/penguin-slide/v2/fix-1.gif) |
+| Cross-vendor: the Codex (GPT) playtester tests what Claude Code built (`playtest.json` records `runner`; the bundled samples predate that field) | [video 2:42](https://youtu.be/M0vdHaCSV5Q?t=162) |
 | Live public arcade, playable on a phone | https://jatinvats123.github.io/jam-studio-arcade/ |
 
 ## What isn't covered

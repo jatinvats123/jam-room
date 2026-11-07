@@ -2,3 +2,6 @@ node_modules/
 *.log
 .verify/
 .browsers/
+
+# internal build log (kept locally, not published)
+PROGRESS.md
